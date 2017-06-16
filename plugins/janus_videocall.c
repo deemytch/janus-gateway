@@ -921,11 +921,13 @@ static void *janus_videocall_handler(void *data) {
 			const char *username_text = json_string_value(username);
 			janus_mutex_lock(&sessions_mutex);
 			if(g_hash_table_lookup(sessions, username_text) != NULL) {
-				janus_mutex_unlock(&sessions_mutex);
-				JANUS_LOG(LOG_ERR, "Username '%s' already taken\n", username_text);
-				error_code = JANUS_VIDEOCALL_ERROR_USERNAME_TAKEN;
-				g_snprintf(error_cause, 512, "Username '%s' already taken", username_text);
-				goto error;
+				/* A dirty hack here.
+				 * I need to permit user to register as much times, as he need. */
+				// janus_mutex_unlock(&sessions_mutex);
+				JANUS_LOG(LOG_ERR, "Username '%s' already taken, but I will register it one more time.\n", username_text);
+				// error_code = JANUS_VIDEOCALL_ERROR_USERNAME_TAKEN;
+				// g_snprintf(error_cause, 512, "Username '%s' already taken", username_text);
+				// goto error;
 			}
 			janus_mutex_unlock(&sessions_mutex);
 			session->username = g_strdup(username_text);
