@@ -907,10 +907,10 @@ static void *janus_videocall_handler(void *data) {
 		} else if(!strcasecmp(request_text, "register")) {
 			/* Map this handle to a username */
 			if(session->username != NULL) {
-				JANUS_LOG(LOG_ERR, "Already registered (%s)\n", session->username);
-				error_code = JANUS_VIDEOCALL_ERROR_ALREADY_REGISTERED;
-				g_snprintf(error_cause, 512, "Already registered (%s)", session->username);
-				goto error;
+				JANUS_LOG(LOG_ERR, "Already registered (%s), but I will register you one more time.\n", session->username);
+				// error_code = JANUS_VIDEOCALL_ERROR_ALREADY_REGISTERED;
+				// g_snprintf(error_cause, 512, "Already registered (%s)", session->username);
+				// goto error;
 			}
 			JANUS_VALIDATE_JSON_OBJECT(root, username_parameters,
 				error_code, error_cause, TRUE,
@@ -924,7 +924,7 @@ static void *janus_videocall_handler(void *data) {
 				/* A dirty hack here.
 				 * I need to permit user to register as much times, as he need. */
 				// janus_mutex_unlock(&sessions_mutex);
-				JANUS_LOG(LOG_ERR, "Username '%s' already taken, but I will register it one more time.\n", username_text);
+				JANUS_LOG(LOG_ERR, "Username '%s' already taken, but I will register he one more time.\n", username_text);
 				// error_code = JANUS_VIDEOCALL_ERROR_USERNAME_TAKEN;
 				// g_snprintf(error_cause, 512, "Username '%s' already taken", username_text);
 				// goto error;
